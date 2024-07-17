@@ -28,8 +28,7 @@ export default class OrderRepository implements OrderRepositoryInterface {
   async update(entity: Order): Promise<void> {
     await OrderModel.update(
       {
-        customer_id: entity.customerId,
-        total: entity.total(),
+        ...entity
       },
       {
         where: {

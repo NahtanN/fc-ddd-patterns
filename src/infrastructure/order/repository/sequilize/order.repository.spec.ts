@@ -89,15 +89,12 @@ describe("Order repository test", () => {
 
     const orderRepository = new OrderRepository();
 
-    jest.spyOn(OrderModel, 'update').mockResolvedValue([1]);
+    jest.spyOn(OrderModel, 'update')
 
     await orderRepository.update(order);
 
     expect(OrderModel.update).toHaveBeenCalledWith(
-      {
-        customer_id: order.customerId,
-        total: 100,
-      },
+      order,
       {
         where: {
           id: order.id,
