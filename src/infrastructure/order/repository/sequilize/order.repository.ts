@@ -28,7 +28,15 @@ export default class OrderRepository implements OrderRepositoryInterface {
   async update(entity: Order): Promise<void> {
     await OrderModel.update(
       {
-        ...entity
+        customer_id: entity.customerId,
+        total: entity.total(),
+        items: entity.items.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          product_id: item.productId,
+          quantity: item.quantity,
+        })),
       },
       {
         where: {
@@ -50,12 +58,41 @@ export default class OrderRepository implements OrderRepositoryInterface {
       throw new Error("Order not found!");
     }
 
-    return new Order(order.id, order.customer_id, order.items.map(item => new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity)));
+    return new Order(
+      order.id,
+      order.customer_id,
+      order.items.map(
+        (item) =>
+          new OrderItem(
+            item.id,
+            item.name,
+            item.price,
+            item.product_id,
+            item.quantity,
+          ),
+      ),
+    );
   }
 
   async findAll(): Promise<Order[]> {
     const orders = await OrderModel.findAll();
 
-    return orders.map((order) => new Order(order.id, order.customer_id, order.items.map(item => new OrderItem(item.id, item.name, item.price, item.product_id, item.quantity))));
+    return orders.map(
+      (order) =>
+        new Order(
+          order.id,
+          order.customer_id,
+          order.items.map(
+            (item) =>
+              new OrderItem(
+                item.id,
+                item.name,
+                item.price,
+                item.product_id,
+                item.quantity,
+              ),
+          ),
+        ),
+    );
   }
 }

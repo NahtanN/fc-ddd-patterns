@@ -32,7 +32,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
         where: {
           id: entity.id,
         },
-      }
+      },
     );
   }
 
@@ -54,7 +54,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
       customerModel.street,
       customerModel.number,
       customerModel.zipcode,
-      customerModel.city
+      customerModel.city,
     );
     customer.changeAddress(address);
     return customer;
@@ -70,7 +70,7 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
         customerModels.street,
         customerModels.number,
         customerModels.zipcode,
-        customerModels.city
+        customerModels.city,
       );
       customer.changeAddress(address);
       if (customerModels.active) {
